@@ -18,7 +18,7 @@ interface Props {
 }
 
 const HomeScreen: React.FC<Props> = ({ navigation, dishes }) => {
-  // Calculate average prices per course using filter() and reduce()
+  // Calculate average prices per course using filter() and reduce() as required
   const calculateAveragePrice = (course: 'Starter' | 'Main' | 'Dessert') => {
     const courseDishes = dishes.filter(dish => dish.course === course);
     if (courseDishes.length === 0) return 0;
