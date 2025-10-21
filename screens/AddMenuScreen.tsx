@@ -28,6 +28,7 @@ const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish }) => {
 
   // Input validation function
   const validateInputs = () => {
+    // Comprehensive input validation as per requirements
     if (!name.trim()) {
       Alert.alert('Validation Error', 'Please enter a dish name');
       return false;
