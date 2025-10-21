@@ -20,7 +20,7 @@ interface Props {
 const FilterScreen: React.FC<Props> = ({ navigation, dishes }) => {
   const [selectedCourse, setSelectedCourse] = useState<'All' | 'Starter' | 'Main' | 'Dessert'>('All');
 
-  // Filter dishes based on selected course
+  // Filter dishes based on selected course using filter() method as required
   const filteredDishes = selectedCourse === 'All' 
     ? dishes 
     : dishes.filter(dish => dish.course === selectedCourse);
