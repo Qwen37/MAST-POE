@@ -1,6 +1,26 @@
-# Restaurant Menu Management App - MAST Part 2
+# Christoffel's Menu App – Part 2
 
 A React Native mobile application for managing restaurant menu items with course filtering and price calculations.
+
+## ✅ Feature Checklist
+
+- [x] Implemented AddDishScreen with form inputs and course selection.
+- [x] Displayed all menu items on HomeScreen using FlatList.
+- [x] Used Picker to select course from predefined list.
+- [x] Calculated and displayed total number of dishes.
+- [x] Calculated average price per course.
+- [x] Styled UI to match Part 1 wireframes.
+- [x] Uploaded project to GitHub with descriptive commits.
+- [x] Recorded video demo showing all features with voice-over.
+- [x] Included testing notes and peer feedback.
+
+## 🔗 Part 1 Correlation
+
+- HomeScreen layout matches Wireframe 1.
+- AddDishScreen form matches Wireframe 2.
+- FilterScreen logic matches Wireframe 3.
+- Navigation flow follows Part 1 diagram.
+- UI components planned in Part 1 are implemented here.
 
 ## Features Implemented ✅
 
