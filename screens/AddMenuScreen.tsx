@@ -122,16 +122,31 @@ const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish }) => {
           {/* Course Selection */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Course *</Text>
-            <View style={styles.pickerContainer}>
-              <Picker
-                selectedValue={course}
-                onValueChange={(itemValue) => setCourse(itemValue)}
-                style={styles.picker}
+            <View style={styles.courseButtonContainer}>
+              <TouchableOpacity
+                style={[styles.courseButton, course === 'Starter' && styles.selectedCourseButton]}
+                onPress={() => setCourse('Starter')}
               >
-                <Picker.Item label="Starter" value="Starter" />
-                <Picker.Item label="Main" value="Main" />
-                <Picker.Item label="Dessert" value="Dessert" />
-              </Picker>
+                <Text style={[styles.courseButtonText, course === 'Starter' && styles.selectedCourseText]}>
+                  Starter
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.courseButton, course === 'Main' && styles.selectedCourseButton]}
+                onPress={() => setCourse('Main')}
+              >
+                <Text style={[styles.courseButtonText, course === 'Main' && styles.selectedCourseText]}>
+                  Main
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.courseButton, course === 'Dessert' && styles.selectedCourseButton]}
+                onPress={() => setCourse('Dessert')}
+              >
+                <Text style={[styles.courseButtonText, course === 'Dessert' && styles.selectedCourseText]}>
+                  Dessert
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -269,6 +284,33 @@ const styles = StyleSheet.create({
     color: '#636e72',
     fontSize: 17,
     fontWeight: '600',
+  },
+  courseButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 10,
+  },
+  courseButton: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 16,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#ddd',
+    alignItems: 'center',
+  },
+  selectedCourseButton: {
+    backgroundColor: '#00b894',
+    borderColor: '#00b894',
+  },
+  courseButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#636e72',
+  },
+  selectedCourseText: {
+    color: 'white',
+    fontWeight: '700',
   },
 });
 
