@@ -26,14 +26,8 @@ interface Props {
 const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish, onRemoveDish, dishes }) => {
   // Remove a dish by id (called from button)
   const handleRemoveDish = (id: string) => {
-    Alert.alert(
-      'Remove Dish',
-      'Are you sure you want to remove this dish?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Remove', style: 'destructive', onPress: () => onRemoveDish(id) }
-      ]
-    );
+    onRemoveDish(id);
+    Alert.alert('Removed', 'Dish removed from menu.');
   };
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -133,116 +127,116 @@ const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish, onRemoveDish, d
           </View>
           {/* Course Selection */}
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Course *</Text>
-            <View style={styles.courseButtonContainer}>
-              <TouchableOpacity
-                style={[styles.courseButton, course === 'Starter' && styles.selectedCourseButton]}
-                onPress={() => setCourse('Starter')}
-              >
-                <Text style={[styles.courseButtonText, course === 'Starter' && styles.selectedCourseText]}>
-                  Starter
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.courseButton, course === 'Main' && styles.selectedCourseButton]}
-                onPress={() => setCourse('Main')}
-              >
-                <Text style={[styles.courseButtonText, course === 'Main' && styles.selectedCourseText]}>
-                  Main
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.courseButton, course === 'Dessert' && styles.selectedCourseButton]}
-                onPress={() => setCourse('Dessert')}
-              >
-                <Text style={[styles.courseButtonText, course === 'Dessert' && styles.selectedCourseText]}>
-                  Dessert
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          {/* Price Input */}
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Price (R) *</Text>
-            <TextInput
-              style={styles.textInput}
-              value={price}
-              onChangeText={setPrice}
-              placeholder="Enter price"
-              placeholderTextColor="#999"
-              keyboardType="numeric"
-            />
-          </View>
-          {/* Action Buttons */}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.saveButton}
-              onPress={handleAddDish}
-            >
-              <Text style={styles.buttonText}>SAVE DISH</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.cancelButton}
-              onPress={() => navigation.goBack()}
-            >
-              <Text style={styles.cancelButtonText}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
-          {/* List of current menu items with remove button (for chef) */}
-          <Text style={[styles.title, { fontSize: 22, marginTop: 32 }]}>Current Menu Items</Text>
-          {dishes.length === 0 ? (
-            <Text style={{ color: '#636e72', textAlign: 'center', marginTop: 12 }}>No dishes added yet.</Text>
-          ) : (
-            dishes.map(dish => (
-              <View key={dish.id} style={[styles.dishCard, { marginBottom: 12 }]}> 
-                <Text style={styles.dishName}>{dish.name} <Text style={{ color: '#636e72', fontSize: 13 }}>({dish.course})</Text></Text>
-                <Text style={styles.dishDescription}>{dish.description}</Text>
-                <Text style={styles.dishPrice}>R{dish.price.toFixed(2)}</Text>
-                <TouchableOpacity
-                  style={[styles.saveButton, { backgroundColor: '#d63031', marginTop: 8 }]}
-                  onPress={() => handleRemoveDish(dish.id)}
-                >
-                  <Text style={styles.buttonText}>REMOVE</Text>
-                </TouchableOpacity>
-              </View>
-            ))
-          )}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f7fa',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  formContainer: {
-    padding: 24,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: '#2d3436',
-    marginBottom: 32,
-    textAlign: 'center',
-    letterSpacing: 0.5,
-  },
-  inputGroup: {
-    marginBottom: 24,
-  },
-  label: {
-    fontSize: 17,
-    fontWeight: '700',
-    color: '#2d3436',
-    marginBottom: 12,
-    letterSpacing: 0.3,
-  },
-  textInput: {
+            return (
+              <SafeAreaView style={styles.container}>
+                <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+                  <View style={styles.formContainer}>
+                    <Text style={styles.title}>Add New Menu Item</Text>
+                    {/* Dish Name Input */}
+                    <View style={styles.inputGroup}>
+                      <Text style={styles.label}>Dish Name *</Text>
+                      <TextInput
+                        style={styles.textInput}
+                        value={name}
+                        onChangeText={setName}
+                        placeholder="Enter dish name"
+                        placeholderTextColor="#999"
+                      />
+                    </View>
+                    {/* Description Input */}
+                    <View style={styles.inputGroup}>
+                      <Text style={styles.label}>Description *</Text>
+                      <TextInput
+                        style={[styles.textInput, styles.descriptionInput]}
+                        value={description}
+                        onChangeText={setDescription}
+                        placeholder="Enter dish description"
+                        placeholderTextColor="#999"
+                        multiline
+                        numberOfLines={3}
+                        textAlignVertical="top"
+                      />
+                    </View>
+                    {/* Course Selection */}
+                    <View style={styles.inputGroup}>
+                      <Text style={styles.label}>Course *</Text>
+                      <View style={styles.courseButtonContainer}>
+                        <TouchableOpacity
+                          style={[styles.courseButton, course === 'Starter' && styles.selectedCourseButton]}
+                          onPress={() => setCourse('Starter')}
+                        >
+                          <Text style={[styles.courseButtonText, course === 'Starter' && styles.selectedCourseText]}>
+                            Starter
+                          </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={[styles.courseButton, course === 'Main' && styles.selectedCourseButton]}
+                          onPress={() => setCourse('Main')}
+                        >
+                          <Text style={[styles.courseButtonText, course === 'Main' && styles.selectedCourseText]}>
+                            Main
+                          </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={[styles.courseButton, course === 'Dessert' && styles.selectedCourseButton]}
+                          onPress={() => setCourse('Dessert')}
+                        >
+                          <Text style={[styles.courseButtonText, course === 'Dessert' && styles.selectedCourseText]}>
+                            Dessert
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                    {/* Price Input */}
+                    <View style={styles.inputGroup}>
+                      <Text style={styles.label}>Price (R) *</Text>
+                      <TextInput
+                        style={styles.textInput}
+                        value={price}
+                        onChangeText={setPrice}
+                        placeholder="Enter price"
+                        placeholderTextColor="#999"
+                        keyboardType="numeric"
+                      />
+                    </View>
+                    {/* Action Buttons */}
+                    <View style={styles.buttonContainer}>
+                      <TouchableOpacity
+                        style={styles.saveButton}
+                        onPress={handleAddDish}
+                      >
+                        <Text style={styles.buttonText}>SAVE DISH</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.cancelButton}
+                        onPress={() => navigation.goBack()}
+                      >
+                        <Text style={styles.cancelButtonText}>Cancel</Text>
+                      </TouchableOpacity>
+                    </View>
+                    {/* Chef: Remove Menu Items */}
+                    <Text style={[styles.label, {marginTop: 32}]}>Remove Menu Items</Text>
+                    {dishes.length === 0 ? (
+                      <Text style={styles.emptyText}>No dishes to remove.</Text>
+                    ) : (
+                      dishes.map(dish => (
+                        <View key={dish.id} style={styles.dishCard}>
+                          <Text style={styles.dishName}>{dish.name}</Text>
+                          <Text style={styles.dishDescription}>{dish.description}</Text>
+                          <Text style={styles.dishPrice}>R{dish.price.toFixed(2)}</Text>
+                          <TouchableOpacity
+                            style={[styles.saveButton, {marginTop: 8, backgroundColor: '#d63031'}]}
+                            onPress={() => handleRemoveDish(dish.id)}
+                          >
+                            <Text style={styles.buttonText}>Remove</Text>
+                          </TouchableOpacity>
+                        </View>
+                      ))
+                    )}
+                  </View>
+                </ScrollView>
+              </SafeAreaView>
+            );
     backgroundColor: 'white',
     borderWidth: 2,
     borderColor: '#ddd',
