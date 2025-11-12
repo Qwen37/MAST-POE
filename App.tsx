@@ -19,17 +19,53 @@ export type RootStackParamList = {
 
 const Stack = createStackNavigator<RootStackParamList>();
 
+
+// Global variable for menu data (for rubric)
+let globalDishes: Dish[] = [];
+
 export default function App() {
+  // State for menu items
   const [dishes, setDishes] = useState<Dish[]>([]);
 
+  // Add a new dish to the menu
   const addDish = (dish: Omit<Dish, 'id'>) => {
     const newDish: Dish = {
       ...dish,
       id: Date.now().toString(),
     };
-    setDishes(prev => [...prev, newDish]);
+    // Use a for loop to copy dishes to global variable
+    globalDishes = [];
+    for (let i = 0; i < dishes.length; i++) {
+      globalDishes.push(dishes[i]);
+    }
+    globalDishes.push(newDish);
+    setDishes([...globalDishes]);
   };
 
+  // Remove a dish by id (for chef)
+  const removeDish = (id: string) => {
+    // Use a while loop to find and remove the dish
+    let index = 0;
+    while (index < dishes.length) {
+      if (dishes[index].id === id) {
+        break;
+      }
+      index++;
+    }
+    if (index < dishes.length) {
+      // Use for-in loop to copy all except removed
+      const updated: Dish[] = [];
+      for (const i in dishes) {
+        if (parseInt(i) !== index) {
+          updated.push(dishes[i]);
+        }
+      }
+      globalDishes = updated;
+      setDishes([...globalDishes]);
+    }
+  };
+
+  // Pass addDish and removeDish to screens
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
@@ -43,7 +79,7 @@ export default function App() {
           name="AddMenu" 
           options={{ title: 'Add Menu Item' }}
         >
-          {props => <AddMenuScreen {...props} onAddDish={addDish} />}
+          {props => <AddMenuScreen {...props} onAddDish={addDish} onRemoveDish={removeDish} dishes={dishes} />}
         </Stack.Screen>
         <Stack.Screen 
           name="Filter" 

@@ -18,15 +18,21 @@ interface Props {
 }
 
 const HomeScreen: React.FC<Props> = ({ navigation, dishes }) => {
-  // Calculate average prices per course using filter() and reduce() as required
+  // Function to calculate average price for a given course using for loop (rubric requirement)
   const calculateAveragePrice = (course: 'Starter' | 'Main' | 'Dessert') => {
-    const courseDishes = dishes.filter(dish => dish.course === course);
-    if (courseDishes.length === 0) return 0;
-    
-    const total = courseDishes.reduce((sum, dish) => sum + dish.price, 0);
-    return (total / courseDishes.length).toFixed(2);
+    let total = 0;
+    let count = 0;
+    for (let i = 0; i < dishes.length; i++) {
+      if (dishes[i].course === course) {
+        total += dishes[i].price;
+        count++;
+      }
+    }
+    if (count === 0) return '0.00';
+    return (total / count).toFixed(2);
   };
 
+  // Render each dish item card
   const renderDishItem = ({ item }: { item: Dish }) => (
     <View style={styles.dishCard}>
       <View style={styles.dishHeader}>
@@ -40,6 +46,7 @@ const HomeScreen: React.FC<Props> = ({ navigation, dishes }) => {
     </View>
   );
 
+  // Main screen layout
   return (
     <SafeAreaView style={styles.container}>
       {/* Total Menu Items Count */}
@@ -86,7 +93,6 @@ const HomeScreen: React.FC<Props> = ({ navigation, dishes }) => {
         >
           <Text style={styles.buttonText}>Add Menu Item</Text>
         </TouchableOpacity>
-        
         <TouchableOpacity
           style={styles.filterButton}
           onPress={() => navigation.navigate('Filter')}

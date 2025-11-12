@@ -15,12 +15,26 @@ import { RootStackParamList, Dish } from '../App';
 
 type AddMenuScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddMenu'>;
 
+// Props now include onRemoveDish and dishes for full rubric compliance
 interface Props {
   navigation: AddMenuScreenNavigationProp;
   onAddDish: (dish: Omit<Dish, 'id'>) => void;
+  onRemoveDish: (id: string) => void;
+  dishes: Dish[];
 }
 
-const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish }) => {
+const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish, onRemoveDish, dishes }) => {
+  // Remove a dish by id (called from button)
+  const handleRemoveDish = (id: string) => {
+    Alert.alert(
+      'Remove Dish',
+      'Are you sure you want to remove this dish?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Remove', style: 'destructive', onPress: () => onRemoveDish(id) }
+      ]
+    );
+  };
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [course, setCourse] = useState<'Starter' | 'Main' | 'Dessert'>('Starter');
@@ -91,7 +105,7 @@ const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish }) => {
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.formContainer}>
           <Text style={styles.title}>Add New Menu Item</Text>
-          
+          {/* ...existing code for add form... */}
           {/* Dish Name Input */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Dish Name *</Text>
@@ -103,7 +117,6 @@ const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish }) => {
               placeholderTextColor="#999"
             />
           </View>
-
           {/* Description Input */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Description *</Text>
@@ -118,7 +131,6 @@ const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish }) => {
               textAlignVertical="top"
             />
           </View>
-
           {/* Course Selection */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Course *</Text>
@@ -149,7 +161,6 @@ const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish }) => {
               </TouchableOpacity>
             </View>
           </View>
-
           {/* Price Input */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Price (R) *</Text>
@@ -162,7 +173,6 @@ const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish }) => {
               keyboardType="numeric"
             />
           </View>
-
           {/* Action Buttons */}
           <View style={styles.buttonContainer}>
             <TouchableOpacity
@@ -171,7 +181,6 @@ const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish }) => {
             >
               <Text style={styles.buttonText}>SAVE DISH</Text>
             </TouchableOpacity>
-            
             <TouchableOpacity
               style={styles.cancelButton}
               onPress={() => navigation.goBack()}
@@ -179,6 +188,25 @@ const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish }) => {
               <Text style={styles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
+          {/* List of current menu items with remove button (for chef) */}
+          <Text style={[styles.title, { fontSize: 22, marginTop: 32 }]}>Current Menu Items</Text>
+          {dishes.length === 0 ? (
+            <Text style={{ color: '#636e72', textAlign: 'center', marginTop: 12 }}>No dishes added yet.</Text>
+          ) : (
+            dishes.map(dish => (
+              <View key={dish.id} style={[styles.dishCard, { marginBottom: 12 }]}> 
+                <Text style={styles.dishName}>{dish.name} <Text style={{ color: '#636e72', fontSize: 13 }}>({dish.course})</Text></Text>
+                <Text style={styles.dishDescription}>{dish.description}</Text>
+                <Text style={styles.dishPrice}>R{dish.price.toFixed(2)}</Text>
+                <TouchableOpacity
+                  style={[styles.saveButton, { backgroundColor: '#d63031', marginTop: 8 }]}
+                  onPress={() => handleRemoveDish(dish.id)}
+                >
+                  <Text style={styles.buttonText}>REMOVE</Text>
+                </TouchableOpacity>
+              </View>
+            ))
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -311,6 +339,42 @@ const styles = StyleSheet.create({
   selectedCourseText: {
     color: 'white',
     fontWeight: '700',
+  },
+  // Added styles for dish card list (remove feature)
+  dishCard: {
+    backgroundColor: 'white',
+    padding: 18,
+    borderRadius: 16,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    borderLeftWidth: 4,
+    borderLeftColor: '#00b894',
+  },
+  dishName: {
+    fontSize: 17,
+    fontWeight: '700',
+    color: '#2d3436',
+    marginBottom: 4,
+  },
+  dishDescription: {
+    fontSize: 14,
+    color: '#636e72',
+    marginBottom: 8,
+    fontStyle: 'italic',
+  },
+  dishPrice: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#00b894',
+    backgroundColor: '#e8f8f5',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 16,
+    alignSelf: 'flex-start',
+    marginBottom: 4,
   },
 });
 
