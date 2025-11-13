@@ -81,6 +81,7 @@ const HomeScreen: React.FC<Props> = ({ navigation, dishes }) => {
             keyExtractor={(item) => item.id}
             style={styles.flatList}
             showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 20 }}
           />
         )}
       </View>
@@ -165,9 +166,11 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 16,
     marginTop: 0,
+    marginBottom: 0,
   },
   flatList: {
     flex: 1,
+    marginBottom: 16,
   },
   dishCard: {
     backgroundColor: 'white',
@@ -244,7 +247,11 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     padding: 16,
+    paddingTop: 8,
     gap: 12,
+    backgroundColor: '#f5f7fa',
+    borderTopWidth: 1,
+    borderTopColor: '#e9ecef',
   },
   addButton: {
     flex: 1,
