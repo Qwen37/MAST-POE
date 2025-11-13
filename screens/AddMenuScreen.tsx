@@ -133,26 +133,53 @@ const AddMenuScreen: React.FC<Props> = ({ navigation, onAddDish, onRemoveDish, d
             <Text style={styles.label}>Course *</Text>
             <View style={styles.courseButtonContainer}>
               <TouchableOpacity
-                style={[styles.courseButton, course === 'Starter' && styles.selectedCourseButton]}
-                onPress={() => setCourse('Starter')}
+                style={[
+                  styles.courseButton, 
+                  course === 'Starter' && styles.selectedCourseButton
+                ]}
+                onPress={() => {
+                  setCourse('Starter');
+                  console.log('Course set to: Starter');
+                }}
               >
-                <Text style={[styles.courseButtonText, course === 'Starter' && styles.selectedCourseText]}>
+                <Text style={[
+                  styles.courseButtonText, 
+                  course === 'Starter' && styles.selectedCourseText
+                ]}>
                   Starter
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.courseButton, course === 'Main' && styles.selectedCourseButton]}
-                onPress={() => setCourse('Main')}
+                style={[
+                  styles.courseButton, 
+                  course === 'Main' && styles.selectedCourseButton
+                ]}
+                onPress={() => {
+                  setCourse('Main');
+                  console.log('Course set to: Main');
+                }}
               >
-                <Text style={[styles.courseButtonText, course === 'Main' && styles.selectedCourseText]}>
+                <Text style={[
+                  styles.courseButtonText, 
+                  course === 'Main' && styles.selectedCourseText
+                ]}>
                   Main
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.courseButton, course === 'Dessert' && styles.selectedCourseButton]}
-                onPress={() => setCourse('Dessert')}
+                style={[
+                  styles.courseButton, 
+                  course === 'Dessert' && styles.selectedCourseButton
+                ]}
+                onPress={() => {
+                  setCourse('Dessert');
+                  console.log('Course set to: Dessert');
+                }}
               >
-                <Text style={[styles.courseButtonText, course === 'Dessert' && styles.selectedCourseText]}>
+                <Text style={[
+                  styles.courseButtonText, 
+                  course === 'Dessert' && styles.selectedCourseText
+                ]}>
                   Dessert
                 </Text>
               </TouchableOpacity>
@@ -330,6 +357,11 @@ const styles = StyleSheet.create({
   selectedCourseButton: {
     backgroundColor: '#00b894',
     borderColor: '#00b894',
+    elevation: 4,
+    shadowColor: '#00b894',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   courseButtonText: {
     fontSize: 16,
